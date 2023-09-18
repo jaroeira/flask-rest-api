@@ -1,7 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 from app.dtos import CreateUserDto, FullUserToReturnDto
-from app.services.user_service import create_user, get_all_users, get_user_by_id
+import app.services.user_service as user_service
 
 blp = Blueprint("User", "user", description="User api endpoints", url_prefix="/user")
 
@@ -66,12 +66,12 @@ class User(MethodView):
     @blp.response(200, FullUserToReturnDto(many=True))
     def get(self):
         """Get a list of all users - Admin only"""
-        return get_all_users()
+        return user_service.get_all_users()
 
     @blp.arguments(CreateUserDto)
     def post(self, user_data):
         """Create user - Admin only"""
-        return create_user(user_data)
+        return user_service.create_user(user_data)
        
     
     def put(self):
@@ -84,7 +84,7 @@ class UserById(MethodView):
 
     @blp.response(200, FullUserToReturnDto)
     def get(self, public_id):
-        return get_user_by_id(public_id)
+        return user_service.get_user_by_id(public_id)
     
     def delete(self, public_id):
-        return {"message": f"delete user by id endpoint - TODO - id passed: {public_id}"}, 200
+        return user_service.remove_user_by_id(public_id)

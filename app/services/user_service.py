@@ -34,10 +34,25 @@ def get_user_by_id(public_id: str):
         abort(404)
     return user
 
+def remove_user_by_id(public_id: str):
+    user = UserModel.query.filter_by(public_id=public_id).first()
+    if not user:
+        abort(404)
+    _delete_user(user)
+    return {"message": "User deleted successfully!"}, 200
+    
 
 def _save_changes(user: UserModel):
     try:
         db.session.add(user)
+        db.session.commit()   
+    except SQLAlchemyError as e:
+        print(e)
+        abort(500, message="An error occurred.")  
+
+def _delete_user(user: UserModel):
+    try:
+        db.session.delete(user)
         db.session.commit()   
     except SQLAlchemyError as e:
         print(e)
