@@ -25,6 +25,9 @@ def create_user(user_data: Dict[str, str]):
 
     return {"message": "User created successfully!"}, 201
 
+def get_all_users():
+    return UserModel.query.all()
+
 
 def _save_changes(user: UserModel):
     try:

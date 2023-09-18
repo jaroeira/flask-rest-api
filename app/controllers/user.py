@@ -1,7 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from app.dtos import CreateUserDto
-from app.services.user_service import create_user
+from app.dtos import CreateUserDto, FullUserToReturnDto
+from app.services.user_service import create_user, get_all_users
 
 blp = Blueprint("User", "user", description="User api endpoints", url_prefix="/user")
 
@@ -63,9 +63,10 @@ class UserChangePassword(MethodView):
 @blp.route("/")
 class User(MethodView):
 
+    @blp.response(200, FullUserToReturnDto(many=True))
     def get(self):
         """Get a list of all users - Admin only"""
-        return {"message": "get a list with all users - endpoint - TODO"}, 200
+        return get_all_users()
 
     @blp.arguments(CreateUserDto)
     def post(self, user_data):
