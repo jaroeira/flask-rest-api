@@ -28,6 +28,12 @@ def create_user(user_data: Dict[str, str]):
 def get_all_users():
     return UserModel.query.all()
 
+def get_user_by_id(public_id: str):
+    user = UserModel.query.filter_by(public_id=public_id).first()
+    if not user:
+        abort(404)
+    return user
+
 
 def _save_changes(user: UserModel):
     try:

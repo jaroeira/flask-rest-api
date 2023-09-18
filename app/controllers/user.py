@@ -1,7 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 from app.dtos import CreateUserDto, FullUserToReturnDto
-from app.services.user_service import create_user, get_all_users
+from app.services.user_service import create_user, get_all_users, get_user_by_id
 
 blp = Blueprint("User", "user", description="User api endpoints", url_prefix="/user")
 
@@ -79,11 +79,12 @@ class User(MethodView):
         return {"message": "update user endpoint - TODO"}, 200
     
 
-@blp.route("/<int:user_id>")
+@blp.route("/<string:public_id>")
 class UserById(MethodView):
 
-    def get(self, user_id):
-        return {"message": f"get user by id endpoint - TODO - id passed: {user_id}"}, 200
+    @blp.response(200, FullUserToReturnDto)
+    def get(self, public_id):
+        return get_user_by_id(public_id)
     
-    def delete(self, user_id):
-        return {"message": f"delete user by id endpoint - TODO - id passed: {user_id}"}, 200
+    def delete(self, public_id):
+        return {"message": f"delete user by id endpoint - TODO - id passed: {public_id}"}, 200
