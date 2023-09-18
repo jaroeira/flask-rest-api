@@ -84,7 +84,9 @@ class UserById(MethodView):
 
     @blp.response(200, FullUserToReturnDto)
     def get(self, public_id):
+        """Get a user by id - Admin only"""
         return user_service.get_user_by_id(public_id)
     
     def delete(self, public_id):
+        """Delete a user by id - Admin only"""
         return user_service.remove_user_by_id(public_id)
