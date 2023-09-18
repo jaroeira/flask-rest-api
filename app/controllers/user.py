@@ -1,5 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
+from app.dtos import CreateUserDto
+from app.services.user_service import create_user
 
 blp = Blueprint("User", "user", description="User api endpoints", url_prefix="/user")
 
@@ -65,9 +67,11 @@ class User(MethodView):
         """Get a list of all users - Admin only"""
         return {"message": "get a list with all users - endpoint - TODO"}, 200
 
-    def post(self):
+    @blp.arguments(CreateUserDto)
+    def post(self, user_data):
         """Create user - Admin only"""
-        return {"message": "create user endpoint - TODO"}, 201
+        return create_user(user_data)
+       
     
     def put(self):
         """Update user - Admin only"""

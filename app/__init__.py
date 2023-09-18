@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_smorest import Api
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from config import get_config
 from .controllers.user import blp as UserBlueprint 
+from .db import db
 
 
-db = SQLAlchemy()
 
 def create_app() -> Flask:
     app = Flask(__name__)
@@ -14,6 +14,9 @@ def create_app() -> Flask:
     db.init_app(app)
 
     api = Api(app)
+
+    with app.app_context():
+        db.create_all()
 
     api.register_blueprint(UserBlueprint)
 
