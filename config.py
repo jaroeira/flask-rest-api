@@ -20,13 +20,15 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_DEV_URL") or "sqlite:///dev_data.db"
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DATABASE_DEV_URL") or "sqlite:///dev_data.db"
 
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
 
 class ProductionConfig(Config):
     DEBUG = False
@@ -47,5 +49,9 @@ def get_env() -> str:
         return 'dev'
 
 
-def get_config():
-    return config_by_name[get_env()]
+def get_config(env_name: str = None):
+
+    if env_name and env_name in config_by_name:
+        return config_by_name[env_name]
+    else:
+        return config_by_name[get_env()]
