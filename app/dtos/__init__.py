@@ -1,1 +1,1 @@
-from .user_dto import CreateUserDto, FullUserToReturnDto
+from .user_dto import CreateUserDto, FullUserToReturnDto, UpdateUserDto
