@@ -29,7 +29,7 @@ class UserSignin(MethodView):
 
     @blp.arguments(SigninUserDto)
     def post(self, user_data):
-       return  auth_service.signin_user(user_data)
+       return auth_service.signin_user(user_data)
 
   
 
