@@ -1,0 +1,26 @@
+[
+    {
+        "public_id": "3716b609-0d67-4962-b00f-cc8c1f562dcb",
+        "email": "test@test.com",
+        "username": "test",
+        "role": "user",
+        "password": "12345",
+        "password_hash": "$2b$12$FakP7/iCeanGyuOz95zKreKUml0oSiRNYkVh6m7u5YhZ3Cvjci5xu"
+    },
+    {
+        "public_id": "e512b548-a054-4eb1-9a9e-048405de6969",
+        "email": "test@test2.com",
+        "username": "test2",
+        "role": "user",
+        "password": "12345",
+        "password_hash": "$2b$12$NqlNb/EqPJsFXXSkMcRcK.oUoQC/FgSFMprk57SlxzxgI7/pYzNDe"
+    },
+    {
+        "public_id": "3801ac24-54e0-4dfe-9047-2d7b2704cb68",
+        "email": "test@test3.com",
+        "username": "test3",
+        "role": "admin",
+        "password": "12345",
+        "password_hash": "$2b$12$NSJ5bRMQsWesPbRRNnqRYemyL4EdpZSXXGjoOAWIBpP4jvHvVDRVG"
+    }
+]
