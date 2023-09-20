@@ -10,7 +10,7 @@ def signin_user(user_data: Dict[str, str]):
 
     user: UserModel =  UserModel.query.filter_by(username=username).first()
     if not user or not user.verify_password(password):
-        abort(401, "Username or password incorrect")
+        abort(401, message="Username or password incorrect")
 
     access_token = create_access_token(identity=user.public_id, fresh=True)
 
