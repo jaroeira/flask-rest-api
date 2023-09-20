@@ -19,6 +19,7 @@ class UserDto(Schema):
 
 class CreateUserDto(UserDto):
     role = fields.Str(required=True)
+    email_verified = fields.Bool()
 
 class UpdateUserDto(Schema):
     email = fields.Str(required=True)

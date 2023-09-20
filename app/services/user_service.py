@@ -6,6 +6,7 @@ from flask_smorest import abort
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 from datetime import datetime
+from app.utils import generate_random_hash
 
 
 def create_user(user_data: Dict[str, str]):
@@ -20,7 +21,9 @@ def create_user(user_data: Dict[str, str]):
         email=user_data["email"].lower(),
         username=user_data["username"].lower(),
         password=user_data["password"],
-        role=user_data["role"].lower()
+        role=user_data.get("role","user").lower(),
+        email_verified=user_data.get("email_verified", False),
+        verification_token=generate_random_hash()
     )
 
     _save_changes(new_user)
