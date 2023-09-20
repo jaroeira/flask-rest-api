@@ -19,3 +19,6 @@ def test_new_user():
     assert new_user.username == username
     assert new_user.role == role
     assert new_user.password_hash != password
+
+    assert new_user.verify_password("12345") == True
+    assert new_user.verify_password("123") == False

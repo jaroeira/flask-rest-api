@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
@@ -15,6 +16,7 @@ class Config:
     OPENAPI_SWAGGER_UI_PATH = "/swagger"
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=float(os.environ.get("JWT_EXPIRATION_MINUTES")))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

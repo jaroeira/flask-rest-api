@@ -2,8 +2,6 @@ from marshmallow import Schema, ValidationError, fields, validates
 from app.utils import is_valid_email
 
 
-
-
 class UserDto(Schema):
     email = fields.Str(required=True)
     username = fields.Str(required=True)
@@ -34,6 +32,9 @@ class UpdateUserDto(Schema):
             raise ValidationError("Invalid email address")
         
     
+class SigninUserDto(Schema):
+    username = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True)
 
 
 class FullUserToReturnDto(UserDto):
