@@ -15,12 +15,14 @@ def create_app(env_name=None) -> Flask:
 
     db.init_app(app)
 
+    migrate = Migrate(app, db)
+
+    # with app.app_context():
+    #     db.create_all()
+
     api = Api(app)
 
     jwt = JWTManager(app)
-
-    with app.app_context():
-        db.create_all()
 
     api.register_blueprint(UserBlueprint)
     api.register_blueprint(AuthBlueprint)
