@@ -15,6 +15,9 @@ def signin_user(user_data: Dict[str, str]):
     if not user or not user.verify_password(password):
         abort(401, message="Username or password incorrect")
 
+    if not user.email_verified:
+        abort(401, message="Sorry. User\'s email must be verified before first sign in")
+
     response = jsonify({
         "public_id": user.public_id,
         "role": user.role
