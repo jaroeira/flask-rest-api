@@ -11,20 +11,25 @@ def send_email(to, subject, body, html):
     print(f"{email_api_url}/{email_domain}/messages")
 
     return requests.post(f"{email_api_url}/{email_domain}/messages",
-          auth=("api", os.environ.get("EMAIL_API_KEY")),
-          data={"from": f"Mailgun Sandbox <postmaster@{email_domain}>",
-              "to": f"<{to}>",
-              "subject": subject,
-              "text": body,
-              "html": html
-              }
-    )
+                         auth=("api", os.environ.get("EMAIL_API_KEY")),
+                         data={"from": f"Mailgun Sandbox <postmaster@{email_domain}>",
+                               "to": f"<{to}>",
+                               "subject": subject,
+                               "text": body,
+                               "html": html
+                               }
+                         )
 
 
-def send_verification_email(email, username, verification_url):
+def send_verification_email(email, username, verification_token):
+
+    base_url = os.environ.get('BASE_URL')
+    verification_url = f"{base_url}/auth/verify-email?token={verification_token}"
+
     return send_email(
-        email, 
+        email,
         'Flask REST API - Verification E-Mail',
         'Please click on the link below to verify your email address',
-         render_template('email/verify_email.html', username=username, verification_url=verification_url)
-        )
+        render_template('email/verify_email.html',
+                        username=username, verification_url=verification_url)
+    )

@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 from datetime import datetime
 from app.utils import generate_random_hash
+from tasks import send_verification_email
 
 
 def create_user(user_data: Dict[str, str]):
@@ -19,6 +20,8 @@ def create_user(user_data: Dict[str, str]):
         user_data['role'] = 'admin'
         user_data['email_verified'] = True
 
+    verification_token = generate_random_hash()
+
     new_user = UserModel(
         public_id=str(uuid4()),
         email=user_data["email"].lower(),
@@ -26,10 +29,14 @@ def create_user(user_data: Dict[str, str]):
         password=user_data["password"],
         role=user_data.get("role", "user").lower(),
         email_verified=user_data.get("email_verified", False),
-        verification_token=generate_random_hash()
+        verification_token=verification_token
     )
 
     _save_changes(new_user)
+
+    if not new_user.email_verified:
+        send_verification_email(
+            new_user.email, new_user.username, verification_token)
 
     return {"message": "User created successfully!", "public_id": new_user.public_id}, 201
 

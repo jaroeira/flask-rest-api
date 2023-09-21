@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from app.dtos import UserDto, SigninUserDto
+from app.dtos import UserDto, SigninUserDto, EmailVerificationTokenDto
 import app.services.user_service as user_service
 import app.services.auth_service as auth_service
 
@@ -20,8 +20,9 @@ class UserSignup(MethodView):
 @blp.route("/verify-email")
 class UserVerifyEmail(MethodView):
 
-    def get(self):
-        return {"message": "user verify email endpoint - TODO"}, 200
+    @blp.arguments(EmailVerificationTokenDto, location='query')
+    def get(self, params):
+        return auth_service.verify_user_email(params['token'])
 
 
 @blp.route("/signin")
@@ -29,9 +30,7 @@ class UserSignin(MethodView):
 
     @blp.arguments(SigninUserDto)
     def post(self, user_data):
-       return auth_service.signin_user(user_data)
-
-  
+        return auth_service.signin_user(user_data)
 
 
 @blp.route("/refresh-token")
