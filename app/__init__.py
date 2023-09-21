@@ -7,6 +7,7 @@ from .controllers.user import blp as UserBlueprint
 from .controllers.auth import blp as AuthBlueprint
 from .db import db
 from .utils.token_utils import refresh_expiring_jwts
+from tasks import send_verification_email
 
 
 def create_app(env_name=None) -> Flask:
