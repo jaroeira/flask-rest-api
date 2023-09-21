@@ -68,6 +68,26 @@ def forgot_password(email: str):
     return {}, 200
 
 
+def reset_password(reset_token, new_password):
+    user: UserModel = UserModel.query.filter_by(
+        reset_token=reset_token).first()
+
+    current_datetime = datetime.now()
+
+    if not user or user.reset_token_expiration < current_datetime:
+        abort(403, message="Invalid reset password token")
+
+    user.password = new_password
+    user.reset_token = None
+    user.reset_token_expiration = None
+    user.last_password_reset = datetime.now()
+    user.updated_at = datetime.now()
+
+    _save_user_changes(user)
+
+    return {"message": "The password has been successfully reset"}, 200
+
+
 def _save_user_changes(user: UserModel):
     try:
         db.session.add(user)

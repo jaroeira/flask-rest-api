@@ -13,3 +13,8 @@ class ForgotPasswordDto(Schema):
     def validate_email(self, value):
         if not is_valid_email(value):
             raise ValidationError("Invalid email address")
+
+
+class ResetPasswordDto(Schema):
+    token = fields.Str(required=True)
+    new_password = fields.Str(required=True)
