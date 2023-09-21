@@ -6,6 +6,7 @@ from config import get_config
 from .controllers.user import blp as UserBlueprint
 from .controllers.auth import blp as AuthBlueprint
 from .db import db
+from .utils.token_utils import refresh_expiring_jwts
 
 
 def create_app(env_name=None) -> Flask:
@@ -23,5 +24,9 @@ def create_app(env_name=None) -> Flask:
 
     api.register_blueprint(UserBlueprint)
     api.register_blueprint(AuthBlueprint)
+
+    @app.after_request
+    def after_request_callback(response):
+        return refresh_expiring_jwts(response)
 
     return app

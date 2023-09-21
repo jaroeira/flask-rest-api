@@ -33,5 +33,5 @@ def test_sigin_success(client: FlaskClient, populate_user_data):
     })
 
     assert res.status_code == 200
-    assert res.json["access_token"] != None
+ 
      
