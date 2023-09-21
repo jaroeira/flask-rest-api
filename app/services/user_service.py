@@ -10,18 +10,21 @@ from app.utils import generate_random_hash
 
 
 def create_user(user_data: Dict[str, str]):
-    if UserModel.query.filter(
-        or_(UserModel.username ==
-            user_data["username"], UserModel.email == user_data["email"])
-    ).first():
+    if UserModel.query.filter(UserModel.username == user_data["username"]
+                              ).first():
         abort(409, message="A user with that email or username already exists.")
+
+    # The very first user to be registered will be admin by default
+    if UserModel.query.count() == 0:
+        user_data['role'] = 'admin'
+        user_data['email_verified'] = True
 
     new_user = UserModel(
         public_id=str(uuid4()),
         email=user_data["email"].lower(),
         username=user_data["username"].lower(),
         password=user_data["password"],
-        role=user_data.get("role","user").lower(),
+        role=user_data.get("role", "user").lower(),
         email_verified=user_data.get("email_verified", False),
         verification_token=generate_random_hash()
     )
