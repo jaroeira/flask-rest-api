@@ -5,6 +5,9 @@ from flask_jwt_extended import create_access_token, set_access_cookies
 from flask import jsonify
 from app.db import db
 from sqlalchemy.exc import SQLAlchemyError
+from app.utils import generate_random_hash
+from datetime import datetime, timedelta
+from tasks import send_password_reset_email
 
 
 def signin_user(user_data: Dict[str, str]):
@@ -44,6 +47,25 @@ def verify_user_email(verification_token: str):
     _save_user_changes(user)
 
     return {"message": "email address was successfully verified"}, 200
+
+
+def forgot_password(email: str):
+    user: UserModel = UserModel.query.filter_by(email=email).first()
+
+    if not user:
+        return {}, 200
+
+    reset_token = generate_random_hash()
+    reset_token_expiration = datetime.now() + timedelta(days=1)
+
+    user.reset_token = reset_token
+    user.reset_token_expiration = reset_token_expiration
+
+    _save_user_changes(user)
+
+    send_password_reset_email(user.email, user.reset_token)
+
+    return {}, 200
 
 
 def _save_user_changes(user: UserModel):

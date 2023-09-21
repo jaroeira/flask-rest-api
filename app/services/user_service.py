@@ -21,6 +21,7 @@ def create_user(user_data: Dict[str, str]):
         user_data['email_verified'] = True
 
     verification_token = generate_random_hash()
+    email_verified = user_data.get("email_verified", False)
 
     new_user = UserModel(
         public_id=str(uuid4()),
@@ -28,8 +29,8 @@ def create_user(user_data: Dict[str, str]):
         username=user_data["username"].lower(),
         password=user_data["password"],
         role=user_data.get("role", "user").lower(),
-        email_verified=user_data.get("email_verified", False),
-        verification_token=verification_token
+        email_verified=email_verified,
+        verification_token=verification_token if not email_verified else None
     )
 
     _save_changes(new_user)

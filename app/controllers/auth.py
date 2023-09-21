@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from app.dtos import UserDto, SigninUserDto, EmailVerificationTokenDto
+from app.dtos import UserDto, SigninUserDto, EmailVerificationTokenDto, ForgotPasswordDto
 import app.services.user_service as user_service
 import app.services.auth_service as auth_service
 
@@ -50,8 +50,10 @@ class UserRevokeRefreshToken(MethodView):
 @blp.route("/forgot-password")
 class UserForgotPassword(MethodView):
 
-    def post(self):
-        return {"message": "user forgot password endpoint - TODO"}, 200
+    @blp.arguments(ForgotPasswordDto)
+    def post(self, params):
+        email = params["email"]
+        return auth_service.forgot_password(email)
 
 
 @blp.route("/reset-password")
