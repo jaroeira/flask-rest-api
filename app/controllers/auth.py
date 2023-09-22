@@ -34,6 +34,14 @@ class UserSignin(MethodView):
         return auth_service.signin_user(user_data)
 
 
+@blp.route("/signout")
+class UserSignin(MethodView):
+
+    @jwt_required()
+    def post(self):
+        return auth_service.signout_user()
+
+
 @blp.route("/forgot-password")
 class UserForgotPassword(MethodView):
 

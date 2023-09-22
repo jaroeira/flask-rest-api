@@ -1,7 +1,7 @@
 from typing import Dict
 from app.models import UserModel
 from flask_smorest import abort
-from flask_jwt_extended import create_access_token, set_access_cookies
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from flask import jsonify
 from app.db import db
 from sqlalchemy.exc import SQLAlchemyError
@@ -32,6 +32,13 @@ def signin_user(user_data: Dict[str, str]):
         identity=user.public_id, additional_claims=additional_claims)
     set_access_cookies(response, access_token)
 
+    return response, 200
+
+
+def signout_user():
+    response = jsonify({"message": "logout successful"})
+    unset_jwt_cookies(response)
+    # TODO: Add jwt to redis blacklist
     return response, 200
 
 
