@@ -3,6 +3,8 @@ import pytest
 from app import create_app
 from app.db import db
 from app.models import UserModel
+from unittest.mock import Mock
+
 import os
 
 
@@ -22,6 +24,16 @@ def app():
 @pytest.fixture()
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture(autouse=True)
+def patch_send_email(monkeypatch):
+    # Define a mock implementation of send_email
+    def mock_send_email(to, subject, body, html):
+        # Mock implementation
+        return {"status_code": 200, "message": "Email sent successfully"}
+
+    monkeypatch.setattr('tasks.email_task.send_email', mock_send_email)
 
 
 @pytest.fixture
