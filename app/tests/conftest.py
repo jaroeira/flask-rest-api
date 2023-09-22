@@ -3,8 +3,6 @@ import pytest
 from app import create_app
 from app.db import db
 from app.models import UserModel
-from unittest.mock import Mock
-
 import os
 
 
