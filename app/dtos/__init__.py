@@ -1,2 +1,2 @@
 from .user_dto import CreateUserDto, FullUserToReturnDto, UpdateUserDto, UserDto, SigninUserDto
-from .auth_dto import EmailVerificationTokenDto, ForgotPasswordDto, ResetPasswordDto
+from .auth_dto import EmailVerificationTokenDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto

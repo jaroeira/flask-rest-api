@@ -18,3 +18,9 @@ class ForgotPasswordDto(Schema):
 class ResetPasswordDto(Schema):
     token = fields.Str(required=True)
     new_password = fields.Str(required=True)
+
+
+class ChangePasswordDto(Schema):
+    public_id = fields.Str(required=True)
+    password = fields.Str(required=True)
+    new_password = fields.Str(required=True)

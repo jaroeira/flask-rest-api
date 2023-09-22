@@ -1,6 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from app.dtos import UserDto, SigninUserDto, EmailVerificationTokenDto, ForgotPasswordDto, ResetPasswordDto
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from app.dtos import UserDto, SigninUserDto, EmailVerificationTokenDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto
 import app.services.user_service as user_service
 import app.services.auth_service as auth_service
 
@@ -55,5 +56,18 @@ class UserResetPassword(MethodView):
 @blp.route("/change-password")
 class UserChangePassword(MethodView):
 
-    def put(self):
-        return {"message": "user change password endpoint - TODO"}, 200
+    @jwt_required()
+    @blp.arguments(ChangePasswordDto)
+    def put(self, params):
+        current_user_id = get_jwt_identity()
+        current_user_role = get_jwt()['role']
+        public_id = params['public_id']
+        password = params['password']
+        new_password = params['new_password']
+        return auth_service.change_password(
+            current_user_id,
+            current_user_role,
+            public_id,
+            password,
+            new_password
+        )

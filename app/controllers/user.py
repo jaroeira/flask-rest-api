@@ -1,5 +1,4 @@
 from flask.views import MethodView
-from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from app.dtos import CreateUserDto, FullUserToReturnDto, UpdateUserDto
 from app.utils import admin_required
@@ -19,7 +18,6 @@ class User(MethodView):
     def get(self):
         """Get a list of all users - Admin only"""
         return user_service.get_all_users()
-
 
     @admin_required()
     @blp.arguments(CreateUserDto)

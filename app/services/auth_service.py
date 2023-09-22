@@ -88,6 +88,31 @@ def reset_password(reset_token, new_password):
     return {"message": "The password has been successfully reset"}, 200
 
 
+def change_password(current_user_id, current_user_role, public_id, password, new_password):
+
+    # Admin can change every user password
+    # User and Editor can only change their own password
+    if current_user_id != public_id and current_user_role != 'admin':
+        abort(401)
+
+    user: UserModel = UserModel.query.filter_by(public_id=public_id).first()
+
+    if not user:
+        abort(404, message="user not found")
+
+    # Admin users are not required to provide the older password
+    if current_user_role != 'admin' and not user.verify_password(password):
+        abort(401)
+
+    user.password = new_password
+    user.password_changed = datetime.now()
+    user.updated_at = datetime.now()
+
+    _save_user_changes(user)
+
+    return {"message": "Password changed!", "public_id": public_id}, 200
+
+
 def _save_user_changes(user: UserModel):
     try:
         db.session.add(user)
