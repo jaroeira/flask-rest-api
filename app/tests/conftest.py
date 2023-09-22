@@ -4,6 +4,7 @@ from app import create_app
 from app.db import db
 from app.models import UserModel
 import os
+from unittest.mock import Mock
 
 
 @pytest.fixture
@@ -32,6 +33,17 @@ def patch_send_email(monkeypatch):
         return {"status_code": 200, "message": "Email sent successfully"}
 
     monkeypatch.setattr('tasks.email_task.send_email', mock_send_email)
+
+@pytest.fixture(autouse=True)
+def patch_emails_queue(monkeypatch, app):
+
+    mock_enqueue = Mock()
+    mock_enqueue.enqueue.return_value = None
+
+    with app.app_context():
+        emails_queue_mock = Mock()
+        emails_queue_mock.return_value = None
+        monkeypatch.setattr(app,'emails_queue', mock_enqueue)
 
 
 @pytest.fixture

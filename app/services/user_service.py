@@ -2,6 +2,7 @@ from uuid import uuid4
 from app.db import db
 from app.models import UserModel
 from typing import Dict
+from flask import current_app
 from flask_smorest import abort
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
@@ -36,8 +37,8 @@ def create_user(user_data: Dict[str, str]):
     _save_changes(new_user)
 
     if not new_user.email_verified:
-        send_verification_email(
-            new_user.email, new_user.username, verification_token)
+        current_app.emails_queue.enqueue(
+            send_verification_email, new_user.email, new_user.username, verification_token)
 
     return {"message": "User created successfully!", "public_id": new_user.public_id}, 201
 

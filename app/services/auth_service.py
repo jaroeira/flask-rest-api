@@ -1,5 +1,6 @@
 from typing import Dict
 from app.models import UserModel
+from flask import current_app
 from flask_smorest import abort
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from flask import jsonify
@@ -70,7 +71,9 @@ def forgot_password(email: str):
 
     _save_user_changes(user)
 
-    send_password_reset_email(user.email, user.reset_token)
+    current_app.emails_queue.enqueue(send_password_reset_email, user.email, user.reset_token)
+
+    # send_password_reset_email(user.email, user.reset_token)
 
     return {}, 200
 
