@@ -9,6 +9,7 @@ from sqlalchemy import or_
 from datetime import datetime
 from app.utils import generate_random_hash
 from tasks import send_verification_email
+import logging
 
 
 def create_user(user_data: Dict[str, str]):
@@ -106,5 +107,5 @@ def _delete_user(user: UserModel):
         db.session.delete(user)
         db.session.commit()
     except SQLAlchemyError as e:
-        print(e)
+        logging.error(msg=f"_save_user_changes error: {e}")
         abort(500, message="An error occurred.")

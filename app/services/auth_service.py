@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.utils import generate_random_hash
 from datetime import datetime, timedelta
 from tasks import send_password_reset_email
+import logging
 
 
 def signin_user(user_data: Dict[str, str]):
@@ -71,7 +72,8 @@ def forgot_password(email: str):
 
     _save_user_changes(user)
 
-    current_app.emails_queue.enqueue(send_password_reset_email, user.email, user.reset_token)
+    current_app.emails_queue.enqueue(
+        send_password_reset_email, user.email, user.reset_token)
 
     # send_password_reset_email(user.email, user.reset_token)
 
@@ -128,5 +130,5 @@ def _save_user_changes(user: UserModel):
         db.session.add(user)
         db.session.commit()
     except SQLAlchemyError as e:
-        print(e)
+        logging.error(msg=f"_save_user_changes error: {e}")
         abort(500, message="An error occurred.")
