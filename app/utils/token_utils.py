@@ -29,15 +29,16 @@ def refresh_expiring_jwts(response):
 
 # Here is a custom decorator that verifies the JWT is present in the request,
 # as well as insuring that the JWT has a claim indicating that this user is
-# an administrator
-def admin_required():
+# an administrator or has the indicated role
+
+def role_required(role: str):
     def wrapper(fn):
         @wraps(fn)
         def decorator(*args, **kwargs):
-            print(' verify_jwt_in_request')
+
             verify_jwt_in_request()
             claims = get_jwt()
-            if claims["role"] == 'admin':
+            if claims["role"] == 'admin' or claims["role"] == role:
                 return fn(*args, **kwargs)
             else:
                 return jsonify(message="Admins only!"), 403
