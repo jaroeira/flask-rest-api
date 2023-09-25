@@ -26,5 +26,13 @@ class User(MethodView):
 
     def delete(self, slug):
         return article_service.delete_article(slug)
+    
+
    
-     
+@blp.route("/like/<string:slug>")
+class User(MethodView):
+
+    def post(self, slug):
+        return {"message": "like article - TODO"}, 200
+    
+    
