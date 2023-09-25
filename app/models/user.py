@@ -22,6 +22,8 @@ class UserModel(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=func.now())
     created_at = db.Column(db.DateTime, nullable=False, default=func.now())
 
+    articles = db.relationship('ArticleModel', back_populates="created_by", lazy="dynamic")
+
     @property
     def password(self):
         raise AttributeError('password: write-only field')
