@@ -92,19 +92,3 @@ def _check_if_username_exists(username: str) -> bool:
     return UserModel.query.filter_by(username=username).first() != None
 
 
-# def _save_changes(user: UserModel):
-#     try:
-#         db.session.add(user)
-#         db.session.commit()
-#     except SQLAlchemyError as e:
-#         print(e)
-#         abort(500, message="An error occurred.")
-
-
-# def _delete_user(user: UserModel):
-#     try:
-#         db.session.delete(user)
-#         db.session.commit()
-#     except SQLAlchemyError as e:
-#         logging.error(msg=f"_save_user_changes error: {e}")
-#         abort(500, message="An error occurred.")
