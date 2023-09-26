@@ -1,4 +1,3 @@
-import math
 from typing import Any, Dict, List
 from flask_smorest import abort
 from sqlalchemy import desc, or_
@@ -8,7 +7,6 @@ from app.models import TagModel
 from app.db import db
 from datetime import datetime
 from app.utils import save_db_item, delete_db_item
-from flask import jsonify
 
 
 def create_article(user_id: str, article_data: Dict[str, Any]):
