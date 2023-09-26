@@ -5,11 +5,10 @@ from flask_smorest import abort
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from flask import jsonify
 from app.db import db
-from sqlalchemy.exc import SQLAlchemyError
 from app.utils import generate_random_hash
 from datetime import datetime, timedelta
 from tasks import send_password_reset_email
-import logging
+from app.utils import save_db_item
 
 
 def signin_user(user_data: Dict[str, str]):
@@ -53,7 +52,7 @@ def verify_user_email(verification_token: str):
     user.email_verified = True
     user.verification_token = None
 
-    _save_user_changes(user)
+    save_db_item(user, db)
 
     return {"message": "email address was successfully verified"}, 200
 
@@ -70,7 +69,7 @@ def forgot_password(email: str):
     user.reset_token = reset_token
     user.reset_token_expiration = reset_token_expiration
 
-    _save_user_changes(user)
+    save_db_item(user, db)
 
     current_app.emails_queue.enqueue(
         send_password_reset_email, user.email, user.reset_token)
@@ -95,7 +94,7 @@ def reset_password(reset_token, new_password):
     user.last_password_reset = datetime.now()
     user.updated_at = datetime.now()
 
-    _save_user_changes(user)
+    save_db_item(user, db)
 
     return {"message": "The password has been successfully reset"}, 200
 
@@ -120,15 +119,7 @@ def change_password(current_user_id, current_user_role, public_id, password, new
     user.password_changed = datetime.now()
     user.updated_at = datetime.now()
 
-    _save_user_changes(user)
+    save_db_item(user, db)
 
     return {"message": "Password changed!", "public_id": public_id}, 200
 
-
-def _save_user_changes(user: UserModel):
-    try:
-        db.session.add(user)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        logging.error(msg=f"_save_user_changes error: {e}")
-        abort(500, message="An error occurred.")

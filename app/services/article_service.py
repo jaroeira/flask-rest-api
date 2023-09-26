@@ -1,20 +1,17 @@
 from typing import Any, Dict, List
-from app.models import ArticleModel
+from app.models import ArticleModel, UserModel
 from app.models import TagModel
 from app.db import db
 from datetime import datetime
 
-def create_article(article_data: Dict[str, Any]):
-
-    print(article_data)
+def create_article(user_id: str, article_data: Dict[str, Any]):
 
     article = ArticleModel(
         title=article_data["title"],
         description=article_data["description"],
         content=article_data["content"],
-        created_by_id=5
+        created_by_id=user_id
     )
-    print(article.tags)
 
     tagsToAdd = _get_tags_to_add(article_data["tags"])
 

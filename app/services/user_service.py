@@ -4,12 +4,11 @@ from app.models import UserModel
 from typing import Dict
 from flask import current_app
 from flask_smorest import abort
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 from datetime import datetime
 from app.utils import generate_random_hash
 from tasks import send_verification_email
-import logging
+from app.utils import save_db_item, delete_db_item
 
 
 def create_user(user_data: Dict[str, str]):
@@ -35,7 +34,7 @@ def create_user(user_data: Dict[str, str]):
         verification_token=verification_token if not email_verified else None
     )
 
-    _save_changes(new_user)
+    save_db_item(new_user, db)
 
     if not new_user.email_verified:
         current_app.emails_queue.enqueue(
@@ -73,7 +72,7 @@ def update_user(user_data):
     user.email_verified = user_data["email_verified"]
     user.updated_at = datetime.now()
 
-    _save_changes(user)
+    save_db_item(user, db)
     return {"message": "User updated successfully!"}, 200
 
 
@@ -81,7 +80,7 @@ def remove_user_by_id(public_id: str):
     user = UserModel.query.filter_by(public_id=public_id).first()
     if not user:
         abort(404)
-    _delete_user(user)
+    delete_db_item(user, db)
     return {"message": "User deleted successfully!"}, 200
 
 
@@ -93,19 +92,19 @@ def _check_if_username_exists(username: str) -> bool:
     return UserModel.query.filter_by(username=username).first() != None
 
 
-def _save_changes(user: UserModel):
-    try:
-        db.session.add(user)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        print(e)
-        abort(500, message="An error occurred.")
+# def _save_changes(user: UserModel):
+#     try:
+#         db.session.add(user)
+#         db.session.commit()
+#     except SQLAlchemyError as e:
+#         print(e)
+#         abort(500, message="An error occurred.")
 
 
-def _delete_user(user: UserModel):
-    try:
-        db.session.delete(user)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        logging.error(msg=f"_save_user_changes error: {e}")
-        abort(500, message="An error occurred.")
+# def _delete_user(user: UserModel):
+#     try:
+#         db.session.delete(user)
+#         db.session.commit()
+#     except SQLAlchemyError as e:
+#         logging.error(msg=f"_save_user_changes error: {e}")
+#         abort(500, message="An error occurred.")

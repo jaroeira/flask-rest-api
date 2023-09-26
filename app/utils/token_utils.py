@@ -38,7 +38,7 @@ def role_required(role: str):
 
             verify_jwt_in_request()
             claims = get_jwt()
-            if claims["role"] == 'admin' or claims["role"] == role:
+            if "role" in claims and (claims["role"] == 'admin' or claims["role"] == role):
                 return fn(*args, **kwargs)
             else:
                 return jsonify(message="Admins only!"), 403
