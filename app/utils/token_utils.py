@@ -46,3 +46,10 @@ def role_required(role: str):
         return decorator
 
     return wrapper
+
+def get_user_role():
+    claims = get_jwt()
+    if "role" in claims:
+        return claims['role']
+    else:
+        return None
