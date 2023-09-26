@@ -40,7 +40,7 @@ def get_articles_by_tag(tag, pagination_parameters):
     return _paginate_response(query, pagination_parameters)
 
 
-def get_articles_search_term(search_term, pagination_parameters):
+def get_articles_by_search_term(search_term, pagination_parameters):
 
     term = search_term['term']
 

@@ -65,4 +65,4 @@ class ArticleByTag(MethodView):
     @blp.arguments(ArticleSearchTerm, location="query")
     @blp.response(200, PaginatedArticlesDto)
     def get(self, search_term, pagination_parameters):
-        return article_service.get_articles_search_term(search_term, pagination_parameters)
+        return article_service.get_articles_by_search_term(search_term, pagination_parameters)
