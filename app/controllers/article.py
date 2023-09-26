@@ -44,5 +44,6 @@ class User(MethodView):
 
     @jwt_required()
     def post(self, slug):
-        return {"message": "like article - TODO"}, 200
+        user_id = get_jwt_identity()
+        return article_service.like_article(user_id, slug)
     

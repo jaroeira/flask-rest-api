@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from flask_smorest import abort
-from app.models import ArticleModel, UserModel
+from app.models import ArticleModel, UserModel, ArticleLikesModel
 from app.models import TagModel
 from app.db import db
 from datetime import datetime
@@ -60,6 +60,26 @@ def delete_article(user_id: str, user_role: str, slug: str):
      delete_db_item(article, db)
 
      return {"message": "article successfully deleted!"}, 200
+
+
+def like_article(user_id: str, slug: str):
+    article: ArticleModel = ArticleModel.query.filter_by(_slug=slug).first_or_404(description='Article not found.')
+    user: UserModel = UserModel.query.filter_by(public_id=user_id).first()
+
+    liked = ArticleLikesModel.query.filter_by(article_id=article.id,user_id=user.id).first()
+
+    if not liked:
+        like = ArticleLikesModel(
+            article_id=article.id,
+            user_id=user.id
+        )
+        save_db_item(like, db)
+        return {"message": "Like added!"}, 200 
+    else:
+        delete_db_item(liked, db)
+        return {"message": "Like removed!"}, 200 
+
+ 
 
 
 def _get_tags_to_add(tags: List[str]) -> List[TagModel]:

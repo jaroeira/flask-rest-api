@@ -12,6 +12,7 @@ class ArticleToReturnDto(Schema):
     description = fields.Str()
     content = fields.Str()
     tags = fields.List(fields.Nested(TagDto()), dump_only=True)
+    likes = fields.Int(dump_only=True)
 
 
 class ArticleToInsertDto(Schema):

@@ -3,14 +3,13 @@ from sqlalchemy.sql import func
 from slugify import slugify
 
 
-
 class ArticleModel(db.Model):
     """ User Model for storing Article data"""
     __tablename__ = "articles"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    _title = db.Column('title',db.String(200), nullable=False, unique=True)
-    _slug = db.Column('slug',db.String(255), nullable=False, unique=True)
+    _title = db.Column('title', db.String(200), nullable=False, unique=True)
+    _slug = db.Column('slug', db.String(255), nullable=False, unique=True)
     description = db.Column(db.String, nullable=False)
     content = db.Column(db.Text, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False, default=func.now())
@@ -22,11 +21,13 @@ class ArticleModel(db.Model):
 
     tags = db.relationship(
         'TagModel', secondary='article_tags')
-    
+
+    _likes = db.relationship('ArticleLikesModel')
+
     @property
     def slug(self):
         return self._slug
-    
+
     @property
     def title(self):
         return self._title
@@ -36,8 +37,9 @@ class ArticleModel(db.Model):
         self._title = value
         self._slug = slugify(value)
 
-    # @property
-    # def like_count(self) -> int:
-    #     return 1
+    @property
+    def likes(self) -> int:
+        return len(self._likes)
+
     def __repr__(self):
         return f"<Article {self.title} - '{self.slug}'>"
