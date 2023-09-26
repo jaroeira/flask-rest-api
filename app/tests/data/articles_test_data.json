@@ -1,0 +1,16 @@
+[
+    {
+        "title": "Test Article",
+        "description": "test description",
+        "content": "test content",
+        "created_by_id": 3,
+        "tags": ["tag1", "tag2"]
+    },
+    {
+        "title": "Test Article Editor",
+        "description": "test description",
+        "content": "test content editor",
+        "created_by_id": 1,
+        "tags": ["tag3"]
+    }
+]

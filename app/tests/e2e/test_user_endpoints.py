@@ -3,7 +3,7 @@ from typing import List
 from flask.testing import FlaskClient
 
 
-def test_create_user(client: FlaskClient, populate_user_data):
+def test_create_user(client: FlaskClient):
     with client:
         # sigin as admin user
         client.post('/auth/signin',
@@ -25,7 +25,7 @@ def test_create_user(client: FlaskClient, populate_user_data):
         assert res_get_user.json['email_verified'] == True
 
 
-def test_get_all_users(client: FlaskClient, populate_user_data):
+def test_get_all_users(client: FlaskClient):
     with client:
         # sigin as admin user
         client.post('/auth/signin',
@@ -36,7 +36,7 @@ def test_get_all_users(client: FlaskClient, populate_user_data):
         assert len(res.json) == 3
 
 
-def test_get_user_by_id(client: FlaskClient, populate_user_data):
+def test_get_user_by_id(client: FlaskClient):
     with client:
         # sigin as admin user
         client.post('/auth/signin',

@@ -3,7 +3,7 @@
         "public_id": "3716b609-0d67-4962-b00f-cc8c1f562dcb",
         "email": "test@test.com",
         "username": "test",
-        "role": "user",
+        "role": "editor",
         "password": "12345",
         "password_hash": "$2b$12$FakP7/iCeanGyuOz95zKreKUml0oSiRNYkVh6m7u5YhZ3Cvjci5xu",
         "email_verified": true
