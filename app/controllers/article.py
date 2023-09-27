@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils import role_required, get_user_role, validate_image
-from app.dtos import ArticleToInsertDto, PaginatedArticlesDto, ArticleToUpdateDto, ArticleSearchTerm, ArticleUploadImageDto
+from app.dtos import ArticleToInsertDto, PaginatedArticlesDto, ArticleToUpdateDto, ArticleSearchTerm, ArticleUploadImageDto, ArticleToReturnDto
 import app.services.article_service as article_service
 blp = Blueprint(
     "Article", "article", description="Articles api endpoints", url_prefix="/articles")
@@ -32,6 +32,10 @@ class Article(MethodView):
 
 @blp.route("/<string:slug>")
 class ArticleById(MethodView):
+
+    @blp.response(200, ArticleToReturnDto)
+    def get(self, slug):
+        return article_service.get_article_by_slug(slug)
 
     @role_required('editor')
     def delete(self, slug):

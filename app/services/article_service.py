@@ -51,6 +51,11 @@ def get_articles_by_search_term(search_term, pagination_parameters):
     return _paginate_response(query, pagination_parameters)
 
 
+def get_article_by_slug(slug: str):
+    article = ArticleModel.query.filter_by(_slug=slug).first_or_404()
+    return article
+
+
 def update_article(user_id, user_role, article_data):
     slug = article_data['slug']
 

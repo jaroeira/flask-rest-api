@@ -6,6 +6,12 @@ class TagDto(Schema):
     name = fields.Str()
 
 
+class ArticleImageDto(Schema):
+    id = fields.Int(dump_only=True)
+    image_url = fields.Str()
+    created_at = fields.DateTime()
+
+
 class ArticleToReturnDto(Schema):
 
     title = fields.Str()
@@ -15,6 +21,7 @@ class ArticleToReturnDto(Schema):
     tags = fields.List(fields.Nested(TagDto()), dump_only=True)
     likes = fields.Int(dump_only=True)
     created_at = fields.DateTime()
+    images = fields.List(fields.Nested(ArticleImageDto()), dump_only=True)
 
 
 class PaginatedArticlesDto(Schema):
