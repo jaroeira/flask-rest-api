@@ -36,7 +36,7 @@ def patch_send_email(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
-def patch_emails_queue(monkeypatch, app):
+def patch_tasks_queue(monkeypatch, app):
 
     mock_enqueue = Mock()
     mock_enqueue.enqueue.return_value = None
@@ -44,7 +44,7 @@ def patch_emails_queue(monkeypatch, app):
     with app.app_context():
         emails_queue_mock = Mock()
         emails_queue_mock.return_value = None
-        monkeypatch.setattr(app, 'emails_queue', mock_enqueue)
+        monkeypatch.setattr(app, 'tasks_queue', mock_enqueue)
 
 
 @pytest.fixture(autouse=True)
