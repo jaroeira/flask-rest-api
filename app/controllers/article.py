@@ -68,11 +68,11 @@ class ArticleByTag(MethodView):
         return article_service.get_articles_by_search_term(search_term, pagination_parameters)
 
 
-@blp.route("/upload-image")
+@blp.route("/<string:slug>/upload-image")
 class ArticleUploadImage(MethodView):
 
     @blp.arguments(ArticleUploadImageDto, location="files")
     @validate_image()
-    def post(self, files):
+    def post(self, files, slug):
         image = files['image']
-        return article_service.upload_image(image)
+        return article_service.upload_image(image, slug)

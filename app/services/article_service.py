@@ -3,7 +3,7 @@ from flask import url_for
 from flask_smorest import abort
 from sqlalchemy import desc, or_
 from flask_sqlalchemy.query import Query
-from app.models import ArticleModel, UserModel, ArticleLikesModel
+from app.models import ArticleModel, UserModel, ArticleLikesModel, ArticleImageModel
 from app.models import TagModel
 from app.db import db
 from datetime import datetime
@@ -107,10 +107,23 @@ def like_article(user_id: str, slug: str):
         return {"message": "Like removed!"}, 200
 
 
-def upload_image(image):
+def upload_image(image, slug):
+
+    article: ArticleModel = ArticleModel.query.filter_by(
+        _slug=slug).first()
+
     try:
         file_name = save_image(image)
-        return {"message": "upload sucessfully uploaded!", "image url": url_for('static', filename=f'uploads/{file_name}')}
+        image_url = url_for('static', filename=f'uploads/{file_name}')
+
+        article_image = ArticleImageModel(
+            image_url=image_url,
+            article=article
+        )
+
+        save_db_item(article_image, db)
+
+        return {"message": "upload sucessfully uploaded!", "image url": image_url}
     except Exception as e:
         print(f"Error in save_image: {str(e)}")
         abort(500)
