@@ -24,7 +24,8 @@ class ArticleModel(db.Model):
 
     _likes = db.relationship('ArticleLikesModel')
 
-    images = db.relationship('ArticleImageModel', back_populates='article')
+    images = db.relationship(
+        'ArticleImageModel', back_populates='article', cascade="all, delete")
 
     @property
     def slug(self):

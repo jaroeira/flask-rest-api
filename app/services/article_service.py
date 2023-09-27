@@ -7,7 +7,8 @@ from app.models import ArticleModel, UserModel, ArticleLikesModel, ArticleImageM
 from app.models import TagModel
 from app.db import db
 from datetime import datetime
-from app.utils import save_db_item, delete_db_item, save_image
+from app.utils import save_db_item, delete_db_item, save_image, delete_file
+
 
 
 def create_article(user_id: str, article_data: Dict[str, Any]):
@@ -87,7 +88,13 @@ def delete_article(user_id: str, user_role: str, slug: str):
 
     _check_authorization(article, user_id, user_role)
 
+    images: list[ArticleImageModel] = article.images
+    image_urls = [url.image_url for url in images]
+
     delete_db_item(article, db)
+
+    for url in image_urls:
+        delete_file(url)
 
     return {"message": "article successfully deleted!"}, 200
 

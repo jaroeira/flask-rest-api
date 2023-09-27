@@ -37,7 +37,7 @@ def create_user(user_data: Dict[str, str]):
     save_db_item(new_user, db)
 
     if not new_user.email_verified:
-        current_app.emails_queue.enqueue(
+        current_app.tasks_queue.enqueue(
             send_verification_email, new_user.email, new_user.username, verification_token)
 
     return {"message": "User created successfully!", "public_id": new_user.public_id}, 201

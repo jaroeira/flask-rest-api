@@ -5,10 +5,11 @@ from werkzeug.utils import secure_filename
 import os
 from uuid import uuid4
 
+base_dir = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', '..'))
+
 
 def save_image(image: FileStorage):
-    base_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), '..', '..'))
 
     uploads_folder = 'uploads'
 
@@ -50,3 +51,20 @@ def validate_image():
         return decorator
 
     return wrapper
+
+
+def delete_file(file_path: str):
+
+    full_file_path = os.path.join(
+        base_dir, 'app', file_path.lstrip('/'))
+
+    if os.path.exists(full_file_path):
+        try:
+            os.remove(full_file_path)
+            print(f"File {file_path} deleted successfully.")
+        except PermissionError:
+            print(f"Permission denied: Unable to delete {full_file_path}.")
+        except Exception as e:
+            print(f"An error occurred while deleting {full_file_path}: {e}")
+    else:
+        print(f"File {full_file_path} does not exist.")

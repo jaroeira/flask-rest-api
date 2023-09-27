@@ -16,7 +16,8 @@ def create_app(env_name=None) -> Flask:
     app = Flask(__name__)
     app.config.from_object(get_config(env_name))
 
-    app.emails_queue = Queue('emails', connection=redis_connection)
+    app.tasks_queue = Queue('tasks', connection=redis_connection)
+
 
     db.init_app(app)
 
