@@ -15,7 +15,7 @@ from app.redis import redis_connection
 def create_app(env_name=None) -> Flask:
     app = Flask(__name__)
     app.config.from_object(get_config(env_name))
-    
+
     app.emails_queue = Queue('emails', connection=redis_connection)
 
     db.init_app(app)

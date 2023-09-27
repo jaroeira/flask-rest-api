@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.utils import role_required, get_user_role
-from app.dtos import ArticleToInsertDto, PaginatedArticlesDto, ArticleToUpdateDto, ArticleSearchTerm
+from app.utils import role_required, get_user_role, validate_image
+from app.dtos import ArticleToInsertDto, PaginatedArticlesDto, ArticleToUpdateDto, ArticleSearchTerm, ArticleUploadImageDto
 import app.services.article_service as article_service
 blp = Blueprint(
     "Article", "article", description="Articles api endpoints", url_prefix="/articles")
@@ -66,3 +66,13 @@ class ArticleByTag(MethodView):
     @blp.response(200, PaginatedArticlesDto)
     def get(self, search_term, pagination_parameters):
         return article_service.get_articles_by_search_term(search_term, pagination_parameters)
+
+
+@blp.route("/upload-image")
+class ArticleUploadImage(MethodView):
+
+    @blp.arguments(ArticleUploadImageDto, location="files")
+    @validate_image()
+    def post(self, files):
+        image = files['image']
+        return article_service.upload_image(image)

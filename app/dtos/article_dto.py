@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields, ValidationError, pre_load, validates
+from flask_smorest.fields import Upload
 
 
 class TagDto(Schema):
@@ -54,3 +55,7 @@ def _normalize_tags(data):
 
 class ArticleSearchTerm(Schema):
     term = fields.Str(required=True)
+
+
+class ArticleUploadImageDto(Schema):
+    image = Upload(required=True)

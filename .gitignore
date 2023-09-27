@@ -2,6 +2,10 @@
 .vscode
 **/.DS_Store
 
+app/static/uploads/*
+# Except for the .gitkeep file
+!app/static/uploads/.gitkeep
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,4 +1,5 @@
 from typing import Any, Dict, List
+from flask import url_for
 from flask_smorest import abort
 from sqlalchemy import desc, or_
 from flask_sqlalchemy.query import Query
@@ -6,7 +7,7 @@ from app.models import ArticleModel, UserModel, ArticleLikesModel
 from app.models import TagModel
 from app.db import db
 from datetime import datetime
-from app.utils import save_db_item, delete_db_item
+from app.utils import save_db_item, delete_db_item, save_image
 
 
 def create_article(user_id: str, article_data: Dict[str, Any]):
@@ -104,6 +105,15 @@ def like_article(user_id: str, slug: str):
     else:
         delete_db_item(liked, db)
         return {"message": "Like removed!"}, 200
+
+
+def upload_image(image):
+    try:
+        file_name = save_image(image)
+        return {"message": "upload sucessfully uploaded!", "image url": url_for('static', filename=f'uploads/{file_name}')}
+    except Exception as e:
+        print(f"Error in save_image: {str(e)}")
+        abort(500)
 
 
 def _get_tags_to_add(tags: List[str]) -> List[TagModel]:
