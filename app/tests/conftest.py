@@ -74,3 +74,24 @@ def populate_test_data(app):
                 )
                 db.session.add(article)
             db.session.commit()
+
+
+@pytest.fixture
+def mock_get_sqlalchemy(mocker):
+
+    mock = mocker.patch(
+        "flask_sqlalchemy.model._QueryProperty.__get__").return_value = mocker.Mock()
+    return mock
+
+
+@pytest.fixture
+def user_mock_model():
+    mock_model = UserModel(
+        public_id="e512b548-a054-4eb1-9a9e-048405de6969",
+        email="mock@test.com",
+        username="mock",
+        role="user",
+        password="12345",
+        email_verified=True
+    )
+    return mock_model
