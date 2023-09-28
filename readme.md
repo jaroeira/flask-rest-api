@@ -71,7 +71,7 @@ volumes:
 
 ### ENV FILE
 
-Provide a .env file on the root level of the project if the following variables:
+Provide a .env file on the root level of the project with the following variables:
 
 #### Flask
 
@@ -84,17 +84,17 @@ Provide a .env file on the root level of the project if the following variables:
 - JWT_SECRET_KEY=some_long_secret_hash_like_string
 - JWT_EXPIRATION_MINUTES=50
 
-# Database
+#### Database
 
 - DATABASE_DEV_URL=postgresql://........ or sqlite
 - DATABASE_TEST_URL=sqlite://:memory:
 - DATABASE_PROD_URL=PROD_URL
 
-# Redis
+#### Redis
 
 - REDIS_URL=redis//.......
 
-# Email
+#### Email
 
 - EMAIL_API_URL=https://api.mailgun.net/v3
 - EMAIL_API_KEY=email_service_key
