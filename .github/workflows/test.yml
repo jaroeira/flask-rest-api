@@ -6,6 +6,17 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  FLASK_ENV: ${{ env.FLASK_ENV }}
+  SECRET_KEY: ${{ env.SECRET_KEY }}
+  BASE_URL: ${{ env.BASE_URL }}
+  ENV: ${{ env.ENV }}
+  JWT_SECRET_KEY: ${{ env.JWT_SECRET_KEY }}
+  JWT_EXPIRATION_MINUTES: ${{ env.JWT_EXPIRATION_MINUTES }}
+  DATABASE_DEV_URL: ${{ env.DATABASE_DEV_URL }}
+  DATABASE_TEST_URL: ${{ env.DATABASE_TEST_URL }}
+  REDIS_URL: ${{ env.REDIS_URL }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
