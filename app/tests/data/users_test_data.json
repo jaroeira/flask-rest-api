@@ -25,5 +25,14 @@
         "password_hash": "$2b$12$NSJ5bRMQsWesPbRRNnqRYemyL4EdpZSXXGjoOAWIBpP4jvHvVDRVG",
         "email_verified": true,
         "verification_token": null
+    },
+    {
+        "public_id": "3801ac24-54e0-4dfe-9047-2d7b2704cb61",
+        "email": "simple-user@test.com",
+        "username": "simple-user",
+        "role": "user",
+        "password_hash": "$2b$12$NSJ5bRMQsWesPbRRNnqRYemyL4EdpZSXXGjoOAWIBpP4jvHvVDRVG",
+        "email_verified": true,
+        "verification_token": null
     }
 ]

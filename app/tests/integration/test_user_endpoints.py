@@ -1,4 +1,6 @@
 from flask.testing import FlaskClient
+import os
+import json
 import pytest
 
 
@@ -32,9 +34,16 @@ def test_get_all_users(client: FlaskClient):
         client.post('/auth/signin',
                     json={"username": "test3", "password": "12345"})
 
-        res = client.get('/user/')
-        assert res.status_code == 200
-        assert len(res.json) == 3
+    user_data_file_path = os.path.join(os.path.dirname(
+        __file__), "..", "data", "users_test_data.json")
+
+    with open(user_data_file_path, "r") as json_file:
+        data = json.load(json_file)
+        total_items = len(data)
+
+    res = client.get('/user/')
+    assert res.status_code == 200
+    assert len(res.json) == total_items
 
 
 @pytest.mark.usefixtures("populate_test_data")

@@ -12,6 +12,7 @@ def generate_random_hash() -> str:
     random_hash = hash_object.hexdigest()
     return random_hash
 
+
 def refresh_expiring_jwts(response):
     try:
         exp_timestamp = get_jwt()["exp"]
@@ -25,7 +26,7 @@ def refresh_expiring_jwts(response):
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original response
         return response
-    
+
 
 # Here is a custom decorator that verifies the JWT is present in the request,
 # as well as insuring that the JWT has a claim indicating that this user is
@@ -41,11 +42,12 @@ def role_required(role: str):
             if "role" in claims and (claims["role"] == 'admin' or claims["role"] == role):
                 return fn(*args, **kwargs)
             else:
-                return jsonify(message="Admins only!"), 403
+                return jsonify(message=f"{role}s only!"), 403
 
         return decorator
 
     return wrapper
+
 
 def get_user_role():
     claims = get_jwt()
