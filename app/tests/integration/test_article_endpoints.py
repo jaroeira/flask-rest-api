@@ -5,6 +5,7 @@ import os
 import math
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_create_article_success(client: FlaskClient):
     """
     GIVEN: A logged user with a editor role
@@ -26,6 +27,7 @@ def test_create_article_success(client: FlaskClient):
         assert res.status_code == 201
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_create_article_401(client: FlaskClient):
     """
     GIVEN: A logged user with a normal user role
@@ -47,6 +49,7 @@ def test_create_article_401(client: FlaskClient):
         assert res.status_code == 401
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_update_article_401(client: FlaskClient):
     """
     GIVEN: A logged user with editor role
@@ -70,6 +73,7 @@ def test_update_article_401(client: FlaskClient):
         assert res.status_code == 403
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_update_article_200(client: FlaskClient):
     """
     GIVEN: A logged user with editor role
@@ -94,6 +98,7 @@ def test_update_article_200(client: FlaskClient):
 
 
 @pytest.mark.filterwarnings("ignore:item_count")
+@pytest.mark.usefixtures("populate_test_data")
 def test_get_article_200(client: FlaskClient):
     """
     GIVEN: A unauthenticated request to GET /articles

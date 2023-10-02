@@ -1,16 +1,16 @@
 [
     {
         "title": "Test Article",
+        "slug": "test-article",
         "description": "test description",
         "content": "test content",
-        "created_by_id": 3,
-        "tags": ["tag1", "tag2"]
+        "created_by_id": 3
     },
     {
         "title": "Test Article Editor",
+        "slug": "test-article-editor",
         "description": "test description",
         "content": "test content editor",
-        "created_by_id": 1,
-        "tags": ["tag3"]
+        "created_by_id": 1
     }
 ]

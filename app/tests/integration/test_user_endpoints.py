@@ -1,8 +1,8 @@
-
-from typing import List
 from flask.testing import FlaskClient
+import pytest
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_create_user(client: FlaskClient):
     with client:
         # sigin as admin user
@@ -25,6 +25,7 @@ def test_create_user(client: FlaskClient):
         assert res_get_user.json['email_verified'] == True
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_get_all_users(client: FlaskClient):
     with client:
         # sigin as admin user
@@ -36,6 +37,7 @@ def test_get_all_users(client: FlaskClient):
         assert len(res.json) == 3
 
 
+@pytest.mark.usefixtures("populate_test_data")
 def test_get_user_by_id(client: FlaskClient):
     with client:
         # sigin as admin user

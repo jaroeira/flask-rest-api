@@ -4,16 +4,15 @@
         "email": "test@test.com",
         "username": "test",
         "role": "editor",
-        "password": "12345",
         "password_hash": "$2b$12$FakP7/iCeanGyuOz95zKreKUml0oSiRNYkVh6m7u5YhZ3Cvjci5xu",
-        "email_verified": true
+        "email_verified": true,
+        "verification_token": null
     },
     {
         "public_id": "e512b548-a054-4eb1-9a9e-048405de6969",
         "email": "test@test2.com",
         "username": "verification-token",
         "role": "user",
-        "password": "12345",
         "password_hash": "$2b$12$NqlNb/EqPJsFXXSkMcRcK.oUoQC/FgSFMprk57SlxzxgI7/pYzNDe",
         "email_verified": false,
         "verification_token": "9bb9a1860a6408de7107ec991ec320f5faec9ae019c1ba64409159d7ce7f85cb"
@@ -23,8 +22,8 @@
         "email": "test@test3.com",
         "username": "test3",
         "role": "admin",
-        "password": "12345",
         "password_hash": "$2b$12$NSJ5bRMQsWesPbRRNnqRYemyL4EdpZSXXGjoOAWIBpP4jvHvVDRVG",
-        "email_verified": true
+        "email_verified": true,
+        "verification_token": null
     }
 ]

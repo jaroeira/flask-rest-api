@@ -8,12 +8,15 @@ from app.models import TagModel
 from app.db import db
 from datetime import datetime
 from app.utils import save_db_item, delete_db_item, save_image, delete_file
-
+from slugify import slugify
 
 
 def create_article(user_id: str, article_data: Dict[str, Any]):
 
     user: UserModel = UserModel.query.filter_by(public_id=user_id).first()
+
+    if not ArticleModel.query.filter_by(_slug=slugify(article_data["title"])).first() == None:
+        abort(409, message="An article with this title already exists.")
 
     article = ArticleModel(
         title=article_data["title"],
